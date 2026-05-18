@@ -27,9 +27,14 @@ class Recorder:
     def start(self):
         self._frames = []
         self._recording = True
+        if self._stream is None:
+            self.open()
 
     def stop(self):
         self._recording = False
+        self._stream.stop()
+        self._stream.close()
+        self._stream = None
         return np.concatenate(self._frames, axis=0) if self._frames else np.array([], dtype=np.float32)
 
     def close(self):

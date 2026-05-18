@@ -26,7 +26,6 @@ def load_model(model_name):
 def on_press(key):
     global is_on, is_recording
     if key == keyboard.Key.f1 and is_on and not is_recording:
-        print("Start recording...")
         is_recording = True
         start_recording()
     elif key == keyboard.Key.f1 and is_on and is_recording:
@@ -52,7 +51,7 @@ def start_key_listener():
             pass
 
 def start_recording():
-    print("Recording...")
+    print("Start Recording...")
     recorder.start()
 
 def transcribe(frames):
