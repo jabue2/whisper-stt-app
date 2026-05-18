@@ -15,7 +15,7 @@ class Recorder:
         if self._recording:
             self._frames.append(indata.flatten())
 
-    def open(self):
+    def init_audiostream(self):
         self._stream = sd.InputStream(
             samplerate=self.samplerate,
             channels=self.channels,
