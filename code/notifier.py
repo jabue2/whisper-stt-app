@@ -1,6 +1,11 @@
 import subprocess
 
+CMD = '''
+on run argv
+  display notification (item 2 of argv) with title (item 1 of argv)
+end run
+'''
 
-def notify(text):
-    subprocess.run(["osascript", "-e",
-                    f'display notification "{text}" with title "Whisper"'])
+
+def notify(title, text):
+    subprocess.call(['osascript', '-e', CMD, title, text])

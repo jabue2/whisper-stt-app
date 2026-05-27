@@ -1,6 +1,5 @@
 import threading
-
-import config
+from notifier import notify
 from recorder import Recorder
 from enum import Enum
 from threading import Lock
@@ -32,10 +31,12 @@ class StateMachine:
     def start_recording(self):
         self.state = AppState.RECORDING
         print("Started Recording...")
+        notify("Transcription App", "Recording...")
         self.recorder.start()
 
     def stop_recording(self):
         print("Stopped Recording...")
+        notify("Transcription App", "Stopped Recording...")
         self.start_transcribing(self.recorder.stop())
 
     def start_transcribing(self, frames):

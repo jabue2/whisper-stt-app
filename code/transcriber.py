@@ -30,6 +30,6 @@ class Transcriber:
             text = " ".join(seg.text.strip() for seg in segments).strip()
             print(text)
             pyperclip.copy(text)
-            notify("Copied to clipboard!")
+            notify("Transcription App", "Copied to clipboard!")
         except Exception as e:
             print(e)
