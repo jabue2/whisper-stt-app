@@ -17,8 +17,20 @@ class Recorder:
         if self._recording:
             self._frames.append(indata.flatten())
 
+    def _input_device(self):
+        default_input = sd.default.device[0]
+        if default_input >= 0:
+            return default_input
+
+        for index, device in enumerate(sd.query_devices()):
+            if device.get("max_input_channels", 0) > 0:
+                return index
+
+        raise RuntimeError("No microphone input device is available.")
+
     def init_audiostream(self):
         self._stream = sd.InputStream(
+            device=self._input_device(),
             samplerate=self.samplerate,
             channels=self.channels,
             dtype="float32",

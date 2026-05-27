@@ -8,4 +8,8 @@ end run
 
 
 def notify(title, text):
-    subprocess.call(['osascript', '-e', CMD, title, text])
+    subprocess.call(
+        ['osascript', '-e', CMD, title, text],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )

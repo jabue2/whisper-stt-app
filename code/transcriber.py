@@ -31,5 +31,7 @@ class Transcriber:
             print(text)
             pyperclip.copy(text)
             notify("Transcription App", "Copied to clipboard!")
+            return text
         except Exception as e:
             print(e)
+            return None
