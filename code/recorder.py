@@ -1,10 +1,12 @@
 import sounddevice as sd
 import numpy as np
+import config
+
 
 class Recorder:
-    def __init__(self, samplerate=44100, channels=1):
-        self.samplerate = samplerate
-        self.channels = channels
+    def __init__(self):
+        self.samplerate = config.samplerate
+        self.channels = config.channels
         self._recording = False
         self._frames = []
         self._stream = None

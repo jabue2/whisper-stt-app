@@ -5,29 +5,29 @@ from recorder import Recorder
 from enum import Enum
 from threading import Lock
 
+
 class AppState(Enum):
     IDLE = "IDLE"
     RECORDING = "RECORDING"
     TRANSCRIBING = "TRANSCRIBING"
 
-class StateMachine:
 
-    lock = Lock()
+class StateMachine:
 
     def __init__(self, recorder: Recorder, transcribe_func):
         self.recorder = recorder
         self.state = AppState.IDLE
         self.transcribe_func = transcribe_func
+        self.lock = Lock()
 
-    def toggle_recording(self, lock):
-        lock.acquire()
-        if self.state == AppState.IDLE:
-            self.start_recording()
-        elif self.state == AppState.RECORDING:
-            self.stop_recording()
-        elif self.state == AppState.TRANSCRIBING:
-            print("Still transcribing...")
-        lock.release()
+    def toggle_recording(self):
+        with self.lock:
+            if self.state == AppState.IDLE:
+                self.start_recording()
+            elif self.state == AppState.RECORDING:
+                self.stop_recording()
+            elif self.state == AppState.TRANSCRIBING:
+                print("Still transcribing...")
 
     def start_recording(self):
         self.state = AppState.RECORDING
@@ -45,9 +45,10 @@ class StateMachine:
 
     def finish_transcribing(self, frames):
         try:
-            self.transcribe_func(frames, config.model)
+            self.transcribe_func(frames)
         finally:
-            self.state = AppState.IDLE
+            with self.lock:
+                self.state = AppState.IDLE
 
     def get_state(self):
         return self.state
